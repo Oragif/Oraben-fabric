@@ -18,11 +18,22 @@ public class Config {
         public Integer tpaLvlRequired;
         public Integer tpaLvlPerBlock;
         public Integer tpaBlockModifier;
-        public String tpaNotEnoughLevels;
+        public String tpaNotEnoughLevelsMsg;
+        public Integer tpaTimeout;
+        public String tpaTimeoutMsg;
+        public String tpaRequestMsg;
+        public String tpaPendingMsg;
+        public String tpaSendToMsg;
+        public String tpaCancelledToMsg;
+        public String tpaCancelledFromMsg;
+        public String tpaAcceptedMsg;
+        public String tpaWrongDimension;
 
         //Validate data is within threshold
         public void validate() {
-
+            if (tpaLvlRequired < 0) { tpaLvlRequired = 10; }
+            if (tpaLvlPerBlock < 0) { tpaLvlPerBlock = 1; }
+            if (tpaBlockModifier < 0) { tpaBlockModifier = 16; }
         }
     }
 
@@ -32,7 +43,16 @@ public class Config {
         data.tpaLvlRequired = getValueOrDefault(data.tpaLvlRequired, 10);
         data.tpaLvlPerBlock = getValueOrDefault(data.tpaLvlPerBlock, 1);
         data.tpaBlockModifier = getValueOrDefault(data.tpaBlockModifier, 16);
-        data.tpaNotEnoughLevels = getValueOrDefault(data.tpaNotEnoughLevels, "Not enough levels, required: {Required}");
+        data.tpaNotEnoughLevelsMsg = getValueOrDefault(data.tpaNotEnoughLevelsMsg, "Not enough levels, required: {Required}");
+        data.tpaTimeout = getValueOrDefault(data.tpaTimeout, 60);
+        data.tpaTimeoutMsg = getValueOrDefault(data.tpaTimeoutMsg, "Request to {Player} timed out");
+        data.tpaRequestMsg = getValueOrDefault(data.tpaRequestMsg, "Tpa requested from {Player}");
+        data.tpaPendingMsg = getValueOrDefault(data.tpaPendingMsg, "Tpa request already pending to {Player}");
+        data.tpaSendToMsg = getValueOrDefault(data.tpaSendToMsg, "Tpa request send to {Player}");
+        data.tpaCancelledFromMsg = getValueOrDefault(data.tpaCancelledFromMsg, "Tpa request cancelled to {Player}");
+        data.tpaCancelledToMsg = getValueOrDefault(data.tpaCancelledToMsg, "Tpa request cancelled from {Player}");
+        data.tpaAcceptedMsg = getValueOrDefault(data.tpaAcceptedMsg, "Tpa request to {Player} accepted, cost: {Levels}");
+        data.tpaWrongDimension = getValueOrDefault(data.tpaWrongDimension, "Not in the same dimension, {Player} is in {Dimension}");
 
         return data;
     }
@@ -43,7 +63,8 @@ public class Config {
             Oraben.log("Config loaded");
         } catch (IOException | ClassNotFoundException e) {
             if (e instanceof IOException) {
-                this.configData = new ConfigData();
+                this.configData = addMissing(new ConfigData());
+                this.configData.validate();
                 Oraben.log("Failed to load config");
             }
         }
