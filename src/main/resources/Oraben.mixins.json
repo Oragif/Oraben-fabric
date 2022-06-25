@@ -4,6 +4,7 @@
   "package": "oragif.oraben.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "MixinSpawnEggItem"
   ],
   "client": [
   ],

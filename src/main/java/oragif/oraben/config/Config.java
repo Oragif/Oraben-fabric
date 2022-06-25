@@ -47,8 +47,14 @@ public class Config {
 
         private String Mob_Egg_module;
         public Boolean mobEggEnabled;
+        public Boolean mobEggSurvivalSpawnerChange;
         public List<List<String>> mobEggList;
         private String Mob_Egg_module_end;
+
+        private String Misc;
+        public Boolean itemframePassThrough;
+        public Boolean signEditor;
+        private String Misc_end;
 
         //Validate data is within threshold
         public void validate() {
@@ -93,8 +99,14 @@ public class Config {
 
         data.Mob_Egg_module = "-- Mob egg module --";
         data.mobEggEnabled = getValueOrDefault(data.mobEggEnabled, true);
+        data.mobEggSurvivalSpawnerChange = getValueOrDefault(data.mobEggSurvivalSpawnerChange, false);
         data.mobEggList = getValueOrDefault(data.mobEggList, List.of(Arrays.asList("minecraft:villager", "minecraft:diamond")));
         data.Mob_Egg_module_end = "-- Mob egg module end --";
+
+        data.Misc = "-- Misc --";
+        data.itemframePassThrough = getValueOrDefault(data.itemframePassThrough, true);
+        data.signEditor = getValueOrDefault(data.signEditor, true);
+        data.Misc_end = "-- Misc end --";
 
         return data;
     }
