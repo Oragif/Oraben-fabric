@@ -56,33 +56,34 @@ public class TpaCommand {
         ServerPlayerEntity targetTo = getPlayer(context, "tTo");
 
         Request request = new Request(targetFrom.getUuid(), targetTo.getUuid(), toHere);
-        if (findRequest(request.targetFrom, request.targetTo) == null) {
-            int requiredLvl = requiredLvl(targetFrom, targetTo);
-            if (Oraben.cfg.tpaLvlRequired != 0 && requiredLvl > targetFrom.experienceLevel) {
-                source.sendFeedback(Text.literal(StringReplacer.replace(Oraben.cfg.tpaNotEnoughLevelsMsg, requiredLvl)), false);
-                return Command.SINGLE_SUCCESS;
-            }
-
-            request.setTimeoutCallback(() -> {
-                requests.remove(request);
-                targetFrom.sendMessage(Text.literal(StringReplacer.replace(Oraben.cfg.tpaTimeoutMsg, targetTo)));
-            });
-            requests.add(request);
-
-            targetTo.sendMessage(Text.literal(StringReplacer.replace(Oraben.cfg.tpaRequestMsg, targetFrom) + " | ")
-                            .append(Text.literal("Accept").setStyle(Style.EMPTY.withClickEvent(new ClickEvent(
-                                            ClickEvent.Action.RUN_COMMAND, "/tpa accept " + targetFrom.getEntityName()))
-                                    .withBold(true).withColor(Formatting.GREEN)))
-                            .append(" |"),
-                    false);
-            targetFrom.sendMessage(Text.literal(StringReplacer.replace(Oraben.cfg.tpaSendToMsg, targetTo) + " levels required: " + requiredLvl + " | ")
-                    .append(Text.literal("Cancel").setStyle(Style.EMPTY.withClickEvent(new ClickEvent(
-                                    ClickEvent.Action.RUN_COMMAND, "/tpa cancel " + targetTo.getEntityName()))
-                            .withBold(true).withColor(Formatting.RED)))
-                    .append(" |"), false);
-        } else {
+        if (findRequest(request.targetFrom, request.targetTo) != null) {
             targetFrom.sendMessage(Text.literal(StringReplacer.replace(Oraben.cfg.tpaPendingMsg, targetTo)), false);
+            return Command.SINGLE_SUCCESS;
         }
+
+        int requiredLvl = requiredLvl(targetFrom, targetTo);
+        if (Oraben.cfg.tpaLvlRequired != 0 && requiredLvl > targetFrom.experienceLevel) {
+            source.sendFeedback(Text.literal(StringReplacer.replace(Oraben.cfg.tpaNotEnoughLevelsMsg, requiredLvl)), false);
+            return Command.SINGLE_SUCCESS;
+        }
+
+        request.setTimeoutCallback(() -> {
+            requests.remove(request);
+            targetFrom.sendMessage(Text.literal(StringReplacer.replace(Oraben.cfg.tpaTimeoutMsg, targetTo)));
+        });
+        requests.add(request);
+
+        targetTo.sendMessage(Text.literal(StringReplacer.replace(Oraben.cfg.tpaRequestMsg, targetFrom) + " | ")
+                        .append(Text.literal("Accept").setStyle(Style.EMPTY.withClickEvent(new ClickEvent(
+                                        ClickEvent.Action.RUN_COMMAND, "/tpa accept " + targetFrom.getEntityName()))
+                                .withBold(true).withColor(Formatting.GREEN)))
+                        .append(" |"),
+                false);
+        targetFrom.sendMessage(Text.literal(StringReplacer.replace(Oraben.cfg.tpaSendToMsg, targetTo) + " levels required: " + requiredLvl + " | ")
+                .append(Text.literal("Cancel").setStyle(Style.EMPTY.withClickEvent(new ClickEvent(
+                                ClickEvent.Action.RUN_COMMAND, "/tpa cancel " + targetTo.getEntityName()))
+                        .withBold(true).withColor(Formatting.RED)))
+                .append(" |"), false);
         return Command.SINGLE_SUCCESS;
     }
 
@@ -93,8 +94,7 @@ public class TpaCommand {
 
     private static Request findRequest(UUID targetFrom, UUID targetTo) {
         Optional<Request> req = requests.stream().filter(r -> r.targetTo.equals(targetTo) && r.targetFrom.equals(targetFrom)).findFirst();
-        if (req.isEmpty()) {return null;}
-        Oraben.log(req.toString());
+        if (req.isEmpty()) { return null; }
         return req.get();
     }
 
@@ -111,7 +111,6 @@ public class TpaCommand {
             targetTo.sendMessage(Text.literal(StringReplacer.replace(Oraben.cfg.tpaCancelledToMsg, targetFrom)), false);
         } else {
             targetFrom.sendMessage(Text.literal(StringReplacer.replace(Oraben.cfg.tpaTimeoutMsg, targetTo)));
-            Oraben.log("Request not found");
         }
 
         return Command.SINGLE_SUCCESS;
@@ -139,18 +138,19 @@ public class TpaCommand {
         }
 
         Request req = findRequest(targetFrom.getUuid(), targetTo.getUuid());
-        if (req != null) {
-            removeRequest(req);
-            targetFrom.sendMessage(Text.literal(StringReplacer.replace(Oraben.cfg.tpaAcceptedMsg, targetTo, requiredLvl)), false);
-            targetFrom.setExperienceLevel(targetFrom.experienceLevel - requiredLvl);
-
-            if (req.toHere) {
-                teleportToPlayer(targetTo, targetFrom);
-            } else {
-                teleportToPlayer(targetFrom, targetTo);
-            }
-        } else {
+        if (req == null) {
             targetTo.sendMessage(Text.literal(StringReplacer.replace(Oraben.cfg.tpaTimeoutMsg, targetFrom)));
+            return Command.SINGLE_SUCCESS;
+        }
+
+        removeRequest(req);
+        targetFrom.sendMessage(Text.literal(StringReplacer.replace(Oraben.cfg.tpaAcceptedMsg, targetTo, requiredLvl)), false);
+        targetFrom.setExperienceLevel(targetFrom.experienceLevel - requiredLvl);
+
+        if (req.toHere) {
+            teleportToPlayer(targetTo, targetFrom);
+        } else {
+            teleportToPlayer(targetFrom, targetTo);
         }
 
         return Command.SINGLE_SUCCESS;
