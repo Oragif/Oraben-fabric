@@ -6,6 +6,8 @@ import com.google.gson.stream.JsonReader;
 import oragif.oraben.Oraben;
 
 import java.io.*;
+import java.util.Arrays;
+import java.util.List;
 
 public class Config {
     private static Config instance;
@@ -31,11 +33,30 @@ public class Config {
         public String tpaWrongDimension;
         private String Tpa_module_end;
 
+        private String Sleep_module;
+        public Boolean sleepEnabled;
+        public Integer sleepForcePermissionLevel;
+        public Integer sleepPercentage;
+        public Integer sleepWakeUpTime;
+        public Boolean sleepClearWeatherEnabled;
+        public String sleepSkipNightMsg;
+        public String sleepClearWeatherMsg;
+        public String sleepStartSleepMsg;
+        public String sleepStopSleepMsg;
+        private String Sleep_module_end;
+
+        private String Mob_Egg_module;
+        public Boolean mobEggEnabled;
+        public List<List<String>> mobEggList;
+        private String Mob_Egg_module_end;
+
         //Validate data is within threshold
         public void validate() {
             if (tpaLvlRequired < 0) { tpaLvlRequired = 10; }
             if (tpaLvlPerBlock < 0) { tpaLvlPerBlock = 1; }
             if (tpaBlockModifier < 0) { tpaBlockModifier = 16; }
+            if (0 > sleepPercentage || sleepPercentage > 100) { sleepPercentage = 50; }
+            if (0 > sleepWakeUpTime || sleepWakeUpTime > 24000) { sleepWakeUpTime = 1000; }
         }
     }
 
@@ -58,6 +79,23 @@ public class Config {
         data.tpaWrongDimension = getValueOrDefault(data.tpaWrongDimension, "Not in the same dimension, {Player} is in {Dimension}");
         data.Tpa_module_end = "-- Tpa module end --";
 
+        data.Sleep_module = "-- Sleep module --";
+        data.sleepEnabled = getValueOrDefault(data.sleepEnabled, true);
+        data.sleepForcePermissionLevel = getValueOrDefault(data.sleepForcePermissionLevel, 4);
+        data.sleepPercentage = getValueOrDefault(data.sleepPercentage, 50);
+        data.sleepWakeUpTime = getValueOrDefault(data.sleepWakeUpTime, 1000);
+        data.sleepClearWeatherEnabled = getValueOrDefault(data.sleepClearWeatherEnabled, true);
+        data.sleepSkipNightMsg = getValueOrDefault(data.sleepSkipNightMsg, "Skipping night");
+        data.sleepClearWeatherMsg = getValueOrDefault(data.sleepClearWeatherMsg, "Weather cleared");
+        data.sleepStartSleepMsg = getValueOrDefault(data.sleepStartSleepMsg, "{Player} is now sleeping");
+        data.sleepStopSleepMsg = getValueOrDefault(data.sleepStopSleepMsg, "{Player} is no longer sleeping");
+        data.Sleep_module_end = "-- Sleep module end --";
+
+        data.Mob_Egg_module = "-- Mob egg module --";
+        data.mobEggEnabled = getValueOrDefault(data.mobEggEnabled, true);
+        data.mobEggList = getValueOrDefault(data.mobEggList, List.of(Arrays.asList("minecraft:villager", "minecraft:diamond")));
+        data.Mob_Egg_module_end = "-- Mob egg module end --";
+
         return data;
     }
 
@@ -65,6 +103,7 @@ public class Config {
         if (!this.load()) {
             this.configData = addMissing(new ConfigData());
             this.configData.validate();
+            this.save();
         }
     }
 

@@ -3,6 +3,8 @@ package oragif.oraben;
 import net.fabricmc.api.ModInitializer;
 import oragif.oraben.config.Config;
 import oragif.oraben.config.Config.ConfigData;
+import oragif.oraben.item.MobEgg;
+import oragif.oraben.util.SleepManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,6 +17,8 @@ public class Oraben implements ModInitializer {
     public void onInitialize() {
         cfg = Config.get().configData;
         CommandRegister.register();
+        SleepManager.initialize();
+        if (cfg.mobEggEnabled) { MobEgg.register(); }
     }
 
     public static void log(String msg) {
