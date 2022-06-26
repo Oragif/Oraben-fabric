@@ -29,33 +29,42 @@ public class StringUtil {
         return firstLetterUppercase(objectString).replace(",", " for");
     }
 
-    public static String replace(String msg, int required) {
+    public static String replaceRequired(String msg, int required) {
         Map<String, String> stringValues = new HashMap<>();
         stringValues.put("Required", Integer.toString(required));
         msg = StrSubstitutor.replace(msg, stringValues, "{", "}");
         return msg;
     }
 
-    public static String replace(String msg, ServerPlayerEntity player) {
+    public static String replaceSleeping(String msg, ServerPlayerEntity player, int required, int sleeping) {
+        msg = replacePlayer(msg, player);
+        Map<String, String> stringValues = new HashMap<>();
+        stringValues.put("Required", Integer.toString(required));
+        stringValues.put("Sleeping", Integer.toString(sleeping));
+        msg = StrSubstitutor.replace(msg, stringValues, "{", "}");
+        return msg;
+    }
+
+    public static String replacePlayer(String msg, ServerPlayerEntity player) {
         Map<String, String> stringValues = new HashMap<>();
         stringValues.put("Player", player.getEntityName());
         msg = StrSubstitutor.replace(msg, stringValues, "{", "}");
         return msg;
     }
 
-    public static String replace(String msg, World world) {
+    public static String replaceWorld(String msg, World world) {
         Map<String, String> stringValues = new HashMap<>();
         stringValues.put("World", world.toString());
         msg = StrSubstitutor.replace(msg, stringValues, "{", "}");
         return msg;
     }
 
-    public static String replace(String msg, ServerPlayerEntity player, World world) {
-        msg = replace(msg, world);
-        return replace(msg, player);
+    public static String replacePlayerWorld(String msg, ServerPlayerEntity player, World world) {
+        msg = replaceWorld(msg, world);
+        return replacePlayer(msg, player);
     }
-    public static String replace(String msg, ServerPlayerEntity player, int levels) {
-        msg = replace(msg, player);
+    public static String replaceLevels(String msg, ServerPlayerEntity player, int levels) {
+        msg = replacePlayer(msg, player);
 
         Map<String, String> stringValues = new HashMap<>();
         stringValues.put("Levels", Integer.toString(levels));

@@ -27,7 +27,7 @@ public class SleepManager {
                 ServerWorld world = player.getWorld();
                 sameDay(world);
                 trySkipNight(world);
-                messageAll(world, StringUtil.replace(Oraben.cfg.sleepStartSleepMsg, player));
+                messageAll(world, StringUtil.replaceSleeping(Oraben.cfg.sleepStartSleepMsg, player, requiredToSleep(world), playersSleepingTotal(world)));
             }
         });
     }
@@ -44,10 +44,10 @@ public class SleepManager {
 
             if (!commandSleepers.contains(uuid) && !player.isSleeping()) {
                 commandSleepers.add(uuid);
-                messageAll(world, StringUtil.replace(Oraben.cfg.sleepStartSleepMsg, player));
+                messageAll(world, StringUtil.replaceSleeping(Oraben.cfg.sleepStartSleepMsg, player, requiredToSleep(world), playersSleepingTotal(world)));
             } else if (commandSleepers.contains(uuid)) {
                 commandSleepers.remove(uuid);
-                messageAll(world, StringUtil.replace(Oraben.cfg.sleepStopSleepMsg, player));
+                messageAll(world, StringUtil.replaceSleeping(Oraben.cfg.sleepStopSleepMsg, player, requiredToSleep(world), playersSleepingTotal(world)));
             }
 
             trySkipNight(world);
@@ -83,10 +83,13 @@ public class SleepManager {
     }
 
     private static boolean canSkipNight(ServerWorld world) {
+        return playersSleepingTotal(world) >= requiredToSleep(world);
+    }
+
+    private static int playersSleepingTotal(ServerWorld world) {
         List<ServerPlayerEntity> bedSleepers = world.getPlayers().stream().filter(ServerPlayerEntity::isSleeping).toList();
         int duplicates = (int) bedSleepers.stream().filter(player -> commandSleepers.contains(player.getUuid())).count();
-        int sleeping = commandSleepers.size() + bedSleepers.size() - duplicates;
-        return sleeping >= requiredToSleep(world);
+        return commandSleepers.size() + bedSleepers.size() - duplicates;
     }
 
     private static int requiredToSleep(ServerWorld world) {

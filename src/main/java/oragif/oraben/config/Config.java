@@ -94,8 +94,8 @@ public class Config {
         data.sleepClearWeatherEnabled = getValueOrDefault(data.sleepClearWeatherEnabled, true);
         data.sleepSkipNightMsg = getValueOrDefault(data.sleepSkipNightMsg, "Skipping night");
         data.sleepClearWeatherMsg = getValueOrDefault(data.sleepClearWeatherMsg, "Weather cleared");
-        data.sleepStartSleepMsg = getValueOrDefault(data.sleepStartSleepMsg, "{Player} is now sleeping");
-        data.sleepStopSleepMsg = getValueOrDefault(data.sleepStopSleepMsg, "{Player} is no longer sleeping");
+        data.sleepStartSleepMsg = getValueOrDefault(data.sleepStartSleepMsg, "{Player} is now sleeping {Sleeping}/{Required}");
+        data.sleepStopSleepMsg = getValueOrDefault(data.sleepStopSleepMsg, "{Player} is no longer sleeping {Sleeping}/{Required}");
         data.Sleep_module_end = "-- Sleep module end --";
 
         data.Mob_Egg_module = "-- Mob egg module --";
