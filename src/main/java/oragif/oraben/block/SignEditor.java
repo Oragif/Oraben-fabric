@@ -13,7 +13,7 @@ public class SignEditor {
         UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> {
             if (!Oraben.cfg.signEditor) { return ActionResult.PASS; }
             BlockEntity blockEntity = world.getBlockEntity(hitResult.getBlockPos());
-            if (!(blockEntity instanceof SignBlockEntity)) return ActionResult.PASS;
+            if (!(blockEntity instanceof SignBlockEntity)) { return ActionResult.PASS; }
             if (player.isSneaking() && emptyHands(player)) {
                 SignBlockEntity signBlock = (SignBlockEntity) blockEntity;
                 signBlock.setEditable(true);
