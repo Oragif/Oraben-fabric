@@ -82,7 +82,9 @@ public class SleepManager {
     }
 
     private static boolean canSkipNight(ServerWorld world) {
-        int sleeping = commandSleepers.size() + world.getPlayers().stream().filter(ServerPlayerEntity::isSleeping).toList().size();
+        List<ServerPlayerEntity> bedSleepers = world.getPlayers().stream().filter(ServerPlayerEntity::isSleeping).toList();
+        int duplicates = (int) bedSleepers.stream().filter(player -> commandSleepers.contains(player.getUuid())).count();
+        int sleeping = commandSleepers.size() + bedSleepers.size() - duplicates;
         return sleeping >= requiredToSleep(world);
     }
 
