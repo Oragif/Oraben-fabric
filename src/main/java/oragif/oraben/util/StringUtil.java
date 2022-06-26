@@ -4,11 +4,31 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.core.lookup.StrSubstitutor;
 
-import java.lang.invoke.WrongMethodTypeException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class StringReplacer {
+public class StringUtil {
+    public static String firstLetterUppercase(String string) {
+        String[] words = string.split(" ");
+
+        for (int i = 0; i < words.length; i++)
+        {
+            words[i] = words[i].substring(0, 1).toUpperCase() + words[i].substring(1).toLowerCase();
+        }
+
+        return String.join(" ", words);
+    }
+
+    public static String nameCleanup(String string) {
+        String objectString = string
+                .replace("[", "")
+                .replace("]", "")
+                .replace("minecraft:", "")
+                .replace("_", " ");
+
+        return firstLetterUppercase(objectString).replace(",", " for");
+    }
+
     public static String replace(String msg, int required) {
         Map<String, String> stringValues = new HashMap<>();
         stringValues.put("Required", Integer.toString(required));

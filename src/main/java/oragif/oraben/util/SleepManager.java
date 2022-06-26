@@ -27,7 +27,7 @@ public class SleepManager {
                 ServerWorld world = player.getWorld();
                 sameDay(world);
                 trySkipNight(world);
-                messageAll(world, StringReplacer.replace(Oraben.cfg.sleepStartSleepMsg, player));
+                messageAll(world, StringUtil.replace(Oraben.cfg.sleepStartSleepMsg, player));
             }
         });
     }
@@ -44,10 +44,10 @@ public class SleepManager {
 
             if (!commandSleepers.contains(uuid) && !player.isSleeping()) {
                 commandSleepers.add(uuid);
-                messageAll(world, StringReplacer.replace(Oraben.cfg.sleepStartSleepMsg, player));
+                messageAll(world, StringUtil.replace(Oraben.cfg.sleepStartSleepMsg, player));
             } else if (commandSleepers.contains(uuid)) {
                 commandSleepers.remove(uuid);
-                messageAll(world, StringReplacer.replace(Oraben.cfg.sleepStopSleepMsg, player));
+                messageAll(world, StringUtil.replace(Oraben.cfg.sleepStopSleepMsg, player));
             }
 
             trySkipNight(world);
