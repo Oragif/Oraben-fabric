@@ -1,7 +1,6 @@
 package oragif.oraben;
 
 import net.fabricmc.api.ModInitializer;
-import oragif.oraben.block.ItemFramePassThrough;
 import oragif.oraben.block.SignEditor;
 import oragif.oraben.config.Config;
 import oragif.oraben.config.Config.ConfigData;
@@ -25,7 +24,6 @@ public class Oraben implements ModInitializer {
 
     private void moduleInitializer() {
         if (cfg.mobEggEnabled) { MobEgg.register(); }
-        if (cfg.itemframePassThrough) { ItemFramePassThrough.register(); }
         if (cfg.signEditor) { SignEditor.register(); }
     }
 

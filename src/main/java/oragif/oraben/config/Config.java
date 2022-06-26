@@ -52,7 +52,6 @@ public class Config {
         private String Mob_Egg_module_end;
 
         private String Misc;
-        public Boolean itemframePassThrough;
         public Boolean signEditor;
         private String Misc_end;
 
@@ -104,7 +103,6 @@ public class Config {
         data.Mob_Egg_module_end = "-- Mob egg module end --";
 
         data.Misc = "-- Misc --";
-        data.itemframePassThrough = getValueOrDefault(data.itemframePassThrough, true);
         data.signEditor = getValueOrDefault(data.signEditor, true);
         data.Misc_end = "-- Misc end --";
 

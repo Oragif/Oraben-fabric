@@ -1,5 +1,6 @@
 package oragif.oraben.util;
 
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.ClickEvent;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
@@ -11,5 +12,9 @@ public class CommandUtil {
                 .append(Text.literal(name).setStyle(Style.EMPTY.withClickEvent(new ClickEvent(action, command)).withBold(true).withColor(color)))
                 .append(" | ");
         return text;
+    }
+
+    public static void teleportToPlayer(ServerPlayerEntity playerFrom, ServerPlayerEntity playerTo) {
+        playerFrom.teleport(playerTo.getWorld(), playerTo.getX(), playerTo.getY(), playerTo.getZ(), playerTo.getYaw(), playerTo.getPitch());
     }
 }

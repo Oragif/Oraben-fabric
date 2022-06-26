@@ -22,6 +22,7 @@ import static net.minecraft.command.argument.EntityArgumentType.getPlayer;
 import static net.minecraft.server.command.CommandManager.argument;
 import static net.minecraft.server.command.CommandManager.literal;
 import static oragif.oraben.util.CommandUtil.clickableButton;
+import static oragif.oraben.util.CommandUtil.teleportToPlayer;
 
 public class TpaCommand {
     private static final List<Request> requests = new ArrayList<>();
@@ -165,10 +166,6 @@ public class TpaCommand {
         }
 
         return requiredLvl;
-    }
-
-    public static void teleportToPlayer(ServerPlayerEntity playerFrom, ServerPlayerEntity playerTo) {
-        playerFrom.teleport(playerTo.getWorld(), playerTo.getX(), playerTo.getY(), playerTo.getZ(), playerTo.getYaw(), playerTo.getPitch());
     }
 
     public static class Request {
