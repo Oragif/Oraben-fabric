@@ -43,6 +43,7 @@ public class Config {
         public String sleepClearWeatherMsg;
         public String sleepStartSleepMsg;
         public String sleepStopSleepMsg;
+        public String sleepToEarlyMsg;
         private String Sleep_module_end;
 
         private String Mob_Egg_module;
@@ -82,6 +83,7 @@ public class Config {
         data.tpaCancelledToMsg = getValueOrDefault(data.tpaCancelledToMsg, "Tpa request cancelled from {Player}");
         data.tpaAcceptedMsg = getValueOrDefault(data.tpaAcceptedMsg, "Tpa request to {Player} accepted, cost: {Levels}");
         data.tpaWrongDimension = getValueOrDefault(data.tpaWrongDimension, "Not in the same dimension, {Player} is in {Dimension}");
+        data.sleepToEarlyMsg = getValueOrDefault(data.sleepToEarlyMsg, "Too early to sleep");
         data.Tpa_module_end = "-- Tpa module end --";
 
         data.Sleep_module = "-- Sleep module --";

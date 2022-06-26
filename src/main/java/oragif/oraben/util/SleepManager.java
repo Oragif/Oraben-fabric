@@ -56,9 +56,10 @@ public class SleepManager {
 
         if ((world.isThundering() || world.isRaining()) && Oraben.cfg.sleepClearWeatherEnabled) {
             clearWeather(world);
+            messageAll(world, Oraben.cfg.sleepClearWeatherMsg);
         }
 
-        messageAll(world, Oraben.cfg.sleepClearWeatherMsg);
+        player.sendMessage(Text.literal(Oraben.cfg.sleepToEarlyMsg), true);
         return Command.SINGLE_SUCCESS;
     }
 
