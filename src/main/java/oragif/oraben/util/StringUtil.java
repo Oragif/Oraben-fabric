@@ -5,6 +5,7 @@ import net.minecraft.world.World;
 import org.apache.logging.log4j.core.lookup.StrSubstitutor;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class StringUtil {
@@ -19,7 +20,7 @@ public class StringUtil {
         return String.join(" ", words);
     }
 
-    public static String nameCleanup(String string) {
+    public static String listIdentifierCleaner(String string) {
         String objectString = string
                 .replace("[", "")
                 .replace("]", "")
@@ -28,46 +29,28 @@ public class StringUtil {
 
         return firstLetterUppercase(objectString).replace(",", " for");
     }
-
-    public static String replaceRequired(String msg, int required) {
-        Map<String, String> stringValues = new HashMap<>();
-        stringValues.put("Required", Integer.toString(required));
-        msg = StrSubstitutor.replace(msg, stringValues, "{", "}");
-        return msg;
+    
+    public static List<String> required(int required) {
+        return List.of("Required", Integer.toString(required));
+    }
+    
+    public static List<String> sleeping(int sleeping) {
+        return List.of("Sleeping", Integer.toString(sleeping));
     }
 
-    public static String replaceSleeping(String msg, ServerPlayerEntity player, int required, int sleeping) {
-        msg = replacePlayer(msg, player);
-        Map<String, String> stringValues = new HashMap<>();
-        stringValues.put("Required", Integer.toString(required));
-        stringValues.put("Sleeping", Integer.toString(sleeping));
-        msg = StrSubstitutor.replace(msg, stringValues, "{", "}");
-        return msg;
+    public static List<String> player(ServerPlayerEntity player) {
+        return List.of("Player", player.getEntityName());
     }
 
-    public static String replacePlayer(String msg, ServerPlayerEntity player) {
-        Map<String, String> stringValues = new HashMap<>();
-        stringValues.put("Player", player.getEntityName());
-        msg = StrSubstitutor.replace(msg, stringValues, "{", "}");
-        return msg;
+    public static List<String> world(World world) {
+        return List.of("World", world.toString());
     }
-
-    public static String replaceWorld(String msg, World world) {
+    public static String replaceMsg(String msg, List<List<String>> valuesList) {
         Map<String, String> stringValues = new HashMap<>();
-        stringValues.put("World", world.toString());
-        msg = StrSubstitutor.replace(msg, stringValues, "{", "}");
-        return msg;
-    }
-
-    public static String replacePlayerWorld(String msg, ServerPlayerEntity player, World world) {
-        msg = replaceWorld(msg, world);
-        return replacePlayer(msg, player);
-    }
-    public static String replaceLevels(String msg, ServerPlayerEntity player, int levels) {
-        msg = replacePlayer(msg, player);
-
-        Map<String, String> stringValues = new HashMap<>();
-        stringValues.put("Levels", Integer.toString(levels));
+        for (List<String> values : valuesList) {
+            stringValues.put(values.get(0), values.get(1));
+        }
+        
         msg = StrSubstitutor.replace(msg, stringValues, "{", "}");
         return msg;
     }

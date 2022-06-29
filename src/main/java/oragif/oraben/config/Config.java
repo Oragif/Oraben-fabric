@@ -78,7 +78,7 @@ public class Config {
         data.tpaTimeoutMsg = getValueOrDefault(data.tpaTimeoutMsg, "Request to {Player} timed out");
         data.tpaRequestMsg = getValueOrDefault(data.tpaRequestMsg, "Tpa requested from {Player}");
         data.tpaPendingMsg = getValueOrDefault(data.tpaPendingMsg, "Tpa request already pending to {Player}");
-        data.tpaSendToMsg = getValueOrDefault(data.tpaSendToMsg, "Tpa request send to {Player}");
+        data.tpaSendToMsg = getValueOrDefault(data.tpaSendToMsg, "Tpa request send to {Player}, levels required: {Required}");
         data.tpaCancelledFromMsg = getValueOrDefault(data.tpaCancelledFromMsg, "Tpa request cancelled to {Player}");
         data.tpaCancelledToMsg = getValueOrDefault(data.tpaCancelledToMsg, "Tpa request cancelled from {Player}");
         data.tpaAcceptedMsg = getValueOrDefault(data.tpaAcceptedMsg, "Tpa request to {Player} accepted, cost: {Levels}");

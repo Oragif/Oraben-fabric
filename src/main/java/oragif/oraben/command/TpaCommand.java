@@ -23,6 +23,7 @@ import static net.minecraft.server.command.CommandManager.argument;
 import static net.minecraft.server.command.CommandManager.literal;
 import static oragif.oraben.util.CommandUtil.clickableButton;
 import static oragif.oraben.util.CommandUtil.teleportToPlayer;
+import static oragif.oraben.util.StringUtil.*;
 
 public class TpaCommand {
     private static final List<Request> requests = new ArrayList<>();
@@ -58,7 +59,7 @@ public class TpaCommand {
 
         Request request = new Request(targetFrom.getUuid(), targetTo.getUuid(), toHere);
         if (findRequest(request.targetFrom, request.targetTo) != null) {
-            targetFrom.sendMessage(Text.literal(StringUtil.replacePlayer(Oraben.cfg.tpaPendingMsg, targetTo)), false);
+            targetFrom.sendMessage(Text.literal(StringUtil.replaceMsg(Oraben.cfg.tpaPendingMsg, List.of(player(targetTo)))), false);
             return Command.SINGLE_SUCCESS;
         }
 
@@ -69,14 +70,14 @@ public class TpaCommand {
 
         request.setTimeoutCallback(() -> {
             requests.remove(request);
-            targetFrom.sendMessage(Text.literal(StringUtil.replacePlayer(Oraben.cfg.tpaTimeoutMsg, targetTo)));
+            targetFrom.sendMessage(Text.literal(StringUtil.replaceMsg(Oraben.cfg.tpaTimeoutMsg, List.of(player(targetTo)))));
         });
         requests.add(request);
 
-        targetTo.sendMessage(Text.literal(StringUtil.replacePlayer(Oraben.cfg.tpaRequestMsg, targetFrom) + " | ")
+        targetTo.sendMessage(Text.literal(StringUtil.replaceMsg(Oraben.cfg.tpaRequestMsg, List.of(player(targetFrom))) + " | ")
                 .append(clickableButton(ClickEvent.Action.RUN_COMMAND, "Accept", "/tpa accept " + targetFrom.getEntityName(), Formatting.GREEN)));
 
-        targetFrom.sendMessage(Text.literal(StringUtil.replacePlayer(Oraben.cfg.tpaSendToMsg, targetTo) + " levels required: " + requiredLvl + " | ")
+        targetFrom.sendMessage(Text.literal(StringUtil.replaceMsg(Oraben.cfg.tpaSendToMsg, List.of(player(targetTo), required(requiredLvl))))
                 .append(clickableButton(ClickEvent.Action.RUN_COMMAND, "Cancel", "/tpa cancel " + targetTo.getEntityName(), Formatting.RED)));
 
         return Command.SINGLE_SUCCESS;
@@ -102,10 +103,10 @@ public class TpaCommand {
         Request req = findRequest(targetFrom.getUuid(), targetTo.getUuid());
         if (req != null) {
             removeRequest(req);
-            targetFrom.sendMessage(Text.literal(StringUtil.replacePlayer(Oraben.cfg.tpaCancelledFromMsg, targetTo)), false);
-            targetTo.sendMessage(Text.literal(StringUtil.replacePlayer(Oraben.cfg.tpaCancelledToMsg, targetFrom)), false);
+            targetFrom.sendMessage(Text.literal(StringUtil.replaceMsg(Oraben.cfg.tpaCancelledFromMsg, List.of(player(targetTo)))), false);
+            targetTo.sendMessage(Text.literal(StringUtil.replaceMsg(Oraben.cfg.tpaCancelledToMsg, List.of(player(targetFrom)))), false);
         } else {
-            targetFrom.sendMessage(Text.literal(StringUtil.replacePlayer(Oraben.cfg.tpaTimeoutMsg, targetTo)));
+            targetFrom.sendMessage(Text.literal(StringUtil.replaceMsg(Oraben.cfg.tpaTimeoutMsg, List.of(player(targetTo)))));
         }
 
         return Command.SINGLE_SUCCESS;
@@ -123,7 +124,7 @@ public class TpaCommand {
 
         Request req = findRequest(targetFrom.getUuid(), targetTo.getUuid());
         if (req == null) {
-            targetTo.sendMessage(Text.literal(StringUtil.replacePlayer(Oraben.cfg.tpaTimeoutMsg, targetFrom)));
+            targetTo.sendMessage(Text.literal(StringUtil.replaceMsg(Oraben.cfg.tpaTimeoutMsg, List.of(player(targetFrom)))));
             return Command.SINGLE_SUCCESS;
         }
 
@@ -133,7 +134,7 @@ public class TpaCommand {
         }
 
         removeRequest(req);
-        targetFrom.sendMessage(Text.literal(StringUtil.replaceLevels(Oraben.cfg.tpaAcceptedMsg, targetTo, requiredLvl)), false);
+        targetFrom.sendMessage(Text.literal(StringUtil.replaceMsg(Oraben.cfg.tpaAcceptedMsg, List.of(player(targetTo), required(requiredLvl)))), false);
         targetFrom.setExperienceLevel(targetFrom.experienceLevel - requiredLvl);
 
         if (req.toHere) {
@@ -147,12 +148,12 @@ public class TpaCommand {
 
     private static boolean canTeleport(ServerCommandSource source, ServerPlayerEntity targetFrom, ServerPlayerEntity targetTo, int requiredLvl) {
         if (Oraben.cfg.tpaLvlRequired != 0 && requiredLvl > targetFrom.experienceLevel) {
-            source.sendFeedback(Text.literal(StringUtil.replaceRequired(Oraben.cfg.tpaNotEnoughLevelsMsg, requiredLvl)), false);
+            source.sendFeedback(Text.literal(StringUtil.replaceMsg(Oraben.cfg.tpaNotEnoughLevelsMsg, List.of(required(requiredLvl)))), false);
             return false;
         }
 
         if (targetTo.world != targetFrom.world) {
-            source.sendFeedback(Text.literal(StringUtil.replacePlayerWorld(Oraben.cfg.tpaWrongDimension, targetFrom, targetFrom.world)), false);
+            source.sendFeedback(Text.literal(StringUtil.replaceMsg(Oraben.cfg.tpaWrongDimension, List.of(player(targetFrom), world(targetFrom.world)))), false);
             return false;
         }
 

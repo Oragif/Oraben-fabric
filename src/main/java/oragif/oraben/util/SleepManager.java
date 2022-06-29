@@ -12,9 +12,9 @@ import net.minecraft.text.Text;
 import net.minecraft.world.GameRules;
 import oragif.oraben.Oraben;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+
+import static oragif.oraben.util.StringUtil.*;
 
 public class SleepManager {
     private static List<UUID> commandSleepers = new ArrayList<>();
@@ -27,7 +27,8 @@ public class SleepManager {
                 ServerWorld world = player.getWorld();
                 sameDay(world);
                 trySkipNight(world);
-                messageAll(world, StringUtil.replaceSleeping(Oraben.cfg.sleepStartSleepMsg, player, requiredToSleep(world), playersSleepingTotal(world)));
+                String msg = StringUtil.replaceMsg(Oraben.cfg.sleepStartSleepMsg, List.of(player(player), world(world), required(requiredToSleep(world)), StringUtil.sleeping(requiredToSleep(world))));
+                messageAll(world, msg);
             }
         });
     }
@@ -42,12 +43,13 @@ public class SleepManager {
         if (timeCurrentDay(world) > 12000) {
             sameDay(world);
 
+            List<List<String>> msgReplaceArg = List.of(player(player), required(requiredToSleep(world)), sleeping(playersSleepingTotal(world)));
             if (!commandSleepers.contains(uuid) && !player.isSleeping()) {
                 commandSleepers.add(uuid);
-                messageAll(world, StringUtil.replaceSleeping(Oraben.cfg.sleepStartSleepMsg, player, requiredToSleep(world), playersSleepingTotal(world)));
+                messageAll(world, StringUtil.replaceMsg(Oraben.cfg.sleepStartSleepMsg, msgReplaceArg));
             } else if (commandSleepers.contains(uuid)) {
                 commandSleepers.remove(uuid);
-                messageAll(world, StringUtil.replaceSleeping(Oraben.cfg.sleepStopSleepMsg, player, requiredToSleep(world), playersSleepingTotal(world)));
+                messageAll(world, StringUtil.replaceMsg(Oraben.cfg.sleepStopSleepMsg, msgReplaceArg));
             }
 
             trySkipNight(world);

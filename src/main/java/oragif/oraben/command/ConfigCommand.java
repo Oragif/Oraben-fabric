@@ -27,7 +27,7 @@ import java.util.Objects;
 import static net.minecraft.server.command.CommandManager.argument;
 import static net.minecraft.server.command.CommandManager.literal;
 import static oragif.oraben.util.CommandUtil.clickableButton;
-import static oragif.oraben.util.StringUtil.nameCleanup;
+import static oragif.oraben.util.StringUtil.listIdentifierCleaner;
 
 public class ConfigCommand {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess commandRegistryAccess, CommandManager.RegistrationEnvironment registrationEnvironment) {
@@ -143,7 +143,7 @@ public class ConfigCommand {
 
                                                     if (!Oraben.cfg.mobEggList.contains(current)) {
                                                         Oraben.cfg.mobEggList.add(current);
-                                                        messageChangeConfigList(ctx, "mobEggList", "Added " + nameCleanup(current.toString()), "/oraben edit mobEggList remove " + entity + " " + item);
+                                                        messageChangeConfigList(ctx, "mobEggList", "Added " + listIdentifierCleaner(current.toString()), "/oraben edit mobEggList remove " + entity + " " + item);
                                                     }
 
                                                     return Command.SINGLE_SUCCESS;
@@ -159,7 +159,7 @@ public class ConfigCommand {
                                                     List<String> current = List.of(entity, item);
 
                                                     if (Oraben.cfg.mobEggList.contains(current)) {
-                                                        messageChangeConfigList(ctx, "mobEggList", "Removed " + nameCleanup(current.toString()), "/oraben edit mobEggList add " + entity + " " + item);
+                                                        messageChangeConfigList(ctx, "mobEggList", "Removed " + listIdentifierCleaner(current.toString()), "/oraben edit mobEggList add " + entity + " " + item);
                                                         Oraben.cfg.mobEggList.remove(current);
                                                     }
 
@@ -224,7 +224,7 @@ public class ConfigCommand {
                         objectValue = " " + object.toString();
                     }
 
-                    String objectString = nameCleanup(object.toString());
+                    String objectString = listIdentifierCleaner(object.toString());
 
                     Text _msg = Text.literal(objectString).append(clickableButton(ClickEvent.Action.SUGGEST_COMMAND, "Remove","/oraben edit " + key + " remove" + objectValue, Formatting.RED));
                     source.getPlayer().sendMessage(_msg, false);
