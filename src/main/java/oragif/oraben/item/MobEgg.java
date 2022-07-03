@@ -1,17 +1,21 @@
 package oragif.oraben.item;
 
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SpawnEggItem;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.village.VillagerData;
+import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.World;
 import oragif.oraben.Oraben;
 import oragif.oraben.mixin.AccessorVillagerEntity;
@@ -20,6 +24,7 @@ import java.util.*;
 
 public class MobEgg {
     static final Item air = Registry.ITEM.get(Identifier.tryParse("minecraft:air"));
+    static final Item stick = Registry.ITEM.get(Identifier.tryParse("minecraft:stick"));
     public static void register() {
         UseEntityCallback.EVENT.register(MobEgg::onUseEntity);
     }
@@ -35,13 +40,14 @@ public class MobEgg {
                 if (mobList.contains(current)) {
                     player.swingHand(hand);
 
-                    ItemStack egg = new ItemStack(SpawnEggItem.forEntity(entity.getType()), 1);
-                    /*if (entity instanceof VillagerEntity) {
-                        if (((VillagerEntity) entity).isLeveledMerchant()) {
-                            egg.getOrCreateSubNbt("villager").put("data", (NbtElement) ((VillagerEntity) entity).getVillagerData());
+                    Item item = SpawnEggItem.forEntity(entity.getType());
+                    ItemStack egg = new ItemStack(item, 1);
+                    egg.addEnchantment(Registry.ENCHANTMENT.get(Identifier.tryParse("binding_curse")), 1);
+
+                    if (entity instanceof VillagerEntity villager) {
+                        if (villager.isLeveledMerchant()) {
                         }
                     }
-                    Oraben.log(Objects.requireNonNull(egg.getSubNbt("villager")).toString());*/
                     player.giveItemStack(egg);
                     if (!player.isCreative()) {
                         player.getStackInHand(hand).decrement(1);
@@ -54,6 +60,10 @@ public class MobEgg {
             }
 
             if (entity instanceof VillagerEntity villager) {
+                if (player.isSneaking() && player.isHolding(stick)) {
+                    villager.setVillagerData(villager.getVillagerData().withProfession(VillagerProfession.NONE));
+                }
+
                 if (((AccessorVillagerEntity) villager).lastRestockTime() + Oraben.cfg.restockTime >= world.getTime()) {
                     villager.restock();
                     return actionResult;
