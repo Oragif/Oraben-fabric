@@ -54,6 +54,7 @@ public class Config {
 
         private String Misc;
         public Boolean signEditor;
+        public Integer restockTime;
         private String Misc_end;
 
         //Validate data is within threshold
@@ -63,6 +64,7 @@ public class Config {
             if (tpaBlockModifier < 0) { tpaBlockModifier = 16; }
             if (0 > sleepPercentage || sleepPercentage > 100) { sleepPercentage = 50; }
             if (0 > sleepWakeUpTime || sleepWakeUpTime > 24000) { sleepWakeUpTime = 1000; }
+            if (0 > restockTime) { restockTime = 12000; }
         }
     }
 
@@ -106,6 +108,7 @@ public class Config {
 
         data.Misc = "-- Misc --";
         data.signEditor = getValueOrDefault(data.signEditor, true);
+        data.restockTime = getValueOrDefault(data.restockTime, 12000);
         data.Misc_end = "-- Misc end --";
 
         return data;
