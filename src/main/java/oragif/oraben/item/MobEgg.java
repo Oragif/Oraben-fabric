@@ -23,7 +23,6 @@ public class MobEgg {
     public static void register() {
         UseEntityCallback.EVENT.register(MobEgg::onUseEntity);
     }
-    private static Map<UUID, Long> lastRestock = new HashMap<>();
 
     public static ActionResult onUseEntity(PlayerEntity player, World world, Hand hand, Entity entity, EntityHitResult hitResult) {
         ActionResult actionResult = ActionResult.PASS;
