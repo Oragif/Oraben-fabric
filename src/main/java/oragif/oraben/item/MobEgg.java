@@ -1,7 +1,6 @@
 package oragif.oraben.item;
 
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -14,7 +13,6 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.village.VillagerData;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.World;
 import oragif.oraben.Oraben;
@@ -44,10 +42,6 @@ public class MobEgg {
                     ItemStack egg = new ItemStack(item, 1);
                     egg.addEnchantment(Registry.ENCHANTMENT.get(Identifier.tryParse("binding_curse")), 1);
 
-                    if (entity instanceof VillagerEntity villager) {
-                        if (villager.isLeveledMerchant()) {
-                        }
-                    }
                     player.giveItemStack(egg);
                     if (!player.isCreative()) {
                         player.getStackInHand(hand).decrement(1);
@@ -63,8 +57,10 @@ public class MobEgg {
                 if (player.isSneaking() && player.isHolding(stick)) {
                     villager.setVillagerData(villager.getVillagerData().withProfession(VillagerProfession.NONE));
                 }
-
-                if (((AccessorVillagerEntity) villager).lastRestockTime() + Oraben.cfg.restockTime >= world.getTime()) {
+                long restockTime =  ((AccessorVillagerEntity) villager).getLastRestockTime() + Oraben.cfg.restockTime;
+                Oraben.log("Restock time: " + restockTime + " / " + world.getTime());
+                if (restockTime <= world.getTime()) {
+                    player.sendMessage(Text.literal("Restocking"), false);
                     villager.restock();
                     return actionResult;
                 }

@@ -50,6 +50,7 @@ public class Config {
         public Boolean mobEggEnabled;
         public Boolean mobEggSurvivalSpawnerChange;
         public List<List<String>> mobEggList;
+        public Boolean mobEggLog;
         private String Mob_Egg_module_end;
 
         private String Misc;
@@ -104,6 +105,7 @@ public class Config {
         data.mobEggEnabled = getValueOrDefault(data.mobEggEnabled, true);
         data.mobEggSurvivalSpawnerChange = getValueOrDefault(data.mobEggSurvivalSpawnerChange, false);
         data.mobEggList = getValueOrDefault(data.mobEggList, List.of(Arrays.asList("minecraft:villager", "minecraft:diamond")));
+        data.mobEggLog = getValueOrDefault(data.mobEggLog, true);
         data.Mob_Egg_module_end = "-- Mob egg module end --";
 
         data.Misc = "-- Misc --";

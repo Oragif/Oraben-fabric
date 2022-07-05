@@ -6,6 +6,6 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(VillagerEntity.class)
 public interface AccessorVillagerEntity {
-    @Accessor("lastRestockTime")
-    Long lastRestockTime();
+    @Accessor
+    long getLastRestockTime();
 }

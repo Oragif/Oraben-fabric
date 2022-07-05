@@ -45,109 +45,109 @@ public class ConfigCommand {
 
         argumentBuilder.then(literal("edit")
                 //----- Tpa -----
-                .then(literal("tpaEnabled").then(argument("bool", BoolArgumentType.bool())
-                        .executes(ctx -> {
-                            Boolean newValue = ctx.getArgument("bool", Boolean.class);
-                            messageChangeConfigValue(ctx, "tpaEnabled", Oraben.cfg.tpaEnabled, newValue, "/oraben edit tpaEnabled " + Oraben.cfg.tpaEnabled.toString());
-                            Oraben.cfg.tpaEnabled = newValue;
-                            return Command.SINGLE_SUCCESS;
-                        }))
-                )
-                .then(literal("tpaLvlRequired").then(argument("int", IntegerArgumentType.integer(0, Integer.MAX_VALUE))
-                        .executes(ctx -> {
-                            int newValue = ctx.getArgument("int", Integer.class);
-                            messageChangeConfigValue(ctx, "tpaLvlRequired", Oraben.cfg.tpaLvlRequired, newValue, "/oraben edit tpaLvlRequired " + Oraben.cfg.tpaLvlRequired.toString());
-                            Oraben.cfg.tpaLvlRequired = newValue;
-                            return Command.SINGLE_SUCCESS;
-                        }))
-                )
-                .then(literal("tpaLvlPerBlock").then(argument("int", IntegerArgumentType.integer(0, Integer.MAX_VALUE))
-                        .executes(ctx -> {
-                            int newValue = ctx.getArgument("int", Integer.class);
-                            messageChangeConfigValue(ctx, "tpaLvlPerBlock", Oraben.cfg.tpaLvlPerBlock, newValue, "/oraben edit tpaLvlPerBlock " + Oraben.cfg.tpaLvlPerBlock.toString());
-                            Oraben.cfg.tpaLvlPerBlock = newValue;
-                            return Command.SINGLE_SUCCESS;
-                        }))
-                )
-                .then(literal("tpaBlockModifier").then(argument("int", IntegerArgumentType.integer(0, Integer.MAX_VALUE))
-                        .executes(ctx -> {
-                            int newValue = ctx.getArgument("int", Integer.class);
-                            messageChangeConfigValue(ctx, "tpaBlockModifier", Oraben.cfg.tpaBlockModifier, newValue, "/oraben edit tpaBlockModifier " + Oraben.cfg.tpaBlockModifier.toString());
-                            Oraben.cfg.tpaBlockModifier = newValue;
-                            return Command.SINGLE_SUCCESS;
-                        }))
-                )
-                .then(literal("tpaTimeout").then(argument("int", IntegerArgumentType.integer(0, Integer.MAX_VALUE))
-                        .executes(ctx -> {
-                            int newValue = ctx.getArgument("int", Integer.class);
-                            messageChangeConfigValue(ctx, "tpaTimeout", Oraben.cfg.tpaTimeout, newValue, "/oraben edit tpaTimeout " + Oraben.cfg.tpaTimeout.toString());
-                            Oraben.cfg.tpaTimeout = newValue;
-                            return Command.SINGLE_SUCCESS;
-                        }))
-                )
+                        .then(literal("tpaEnabled").then(argument("bool", BoolArgumentType.bool())
+                                .executes(ctx -> {
+                                    Boolean newValue = ctx.getArgument("bool", Boolean.class);
+                                    messageChangeConfigValue(ctx, "tpaEnabled", Oraben.cfg.tpaEnabled, newValue, "/oraben edit tpaEnabled " + Oraben.cfg.tpaEnabled.toString());
+                                    Oraben.cfg.tpaEnabled = newValue;
+                                    return Command.SINGLE_SUCCESS;
+                                }))
+                        )
+                        .then(literal("tpaLvlRequired").then(argument("int", IntegerArgumentType.integer(0, Integer.MAX_VALUE))
+                                .executes(ctx -> {
+                                    int newValue = ctx.getArgument("int", Integer.class);
+                                    messageChangeConfigValue(ctx, "tpaLvlRequired", Oraben.cfg.tpaLvlRequired, newValue, "/oraben edit tpaLvlRequired " + Oraben.cfg.tpaLvlRequired.toString());
+                                    Oraben.cfg.tpaLvlRequired = newValue;
+                                    return Command.SINGLE_SUCCESS;
+                                }))
+                        )
+                        .then(literal("tpaLvlPerBlock").then(argument("int", IntegerArgumentType.integer(0, Integer.MAX_VALUE))
+                                .executes(ctx -> {
+                                    int newValue = ctx.getArgument("int", Integer.class);
+                                    messageChangeConfigValue(ctx, "tpaLvlPerBlock", Oraben.cfg.tpaLvlPerBlock, newValue, "/oraben edit tpaLvlPerBlock " + Oraben.cfg.tpaLvlPerBlock.toString());
+                                    Oraben.cfg.tpaLvlPerBlock = newValue;
+                                    return Command.SINGLE_SUCCESS;
+                                }))
+                        )
+                        .then(literal("tpaBlockModifier").then(argument("int", IntegerArgumentType.integer(0, Integer.MAX_VALUE))
+                                .executes(ctx -> {
+                                    int newValue = ctx.getArgument("int", Integer.class);
+                                    messageChangeConfigValue(ctx, "tpaBlockModifier", Oraben.cfg.tpaBlockModifier, newValue, "/oraben edit tpaBlockModifier " + Oraben.cfg.tpaBlockModifier.toString());
+                                    Oraben.cfg.tpaBlockModifier = newValue;
+                                    return Command.SINGLE_SUCCESS;
+                                }))
+                        )
+                        .then(literal("tpaTimeout").then(argument("int", IntegerArgumentType.integer(0, Integer.MAX_VALUE))
+                                .executes(ctx -> {
+                                    int newValue = ctx.getArgument("int", Integer.class);
+                                    messageChangeConfigValue(ctx, "tpaTimeout", Oraben.cfg.tpaTimeout, newValue, "/oraben edit tpaTimeout " + Oraben.cfg.tpaTimeout.toString());
+                                    Oraben.cfg.tpaTimeout = newValue;
+                                    return Command.SINGLE_SUCCESS;
+                                }))
+                        )
                 //----- Tpa End -----
 
                 //----- Sleep -----
-                .then(literal("sleepEnabled").then(argument("bool", BoolArgumentType.bool())
-                        .executes(ctx -> {
-                            Boolean newValue = ctx.getArgument("bool", Boolean.class);
-                            messageChangeConfigValue(ctx, "sleepEnabled", Oraben.cfg.sleepEnabled, newValue, "/oraben edit sleepEnabled " + Oraben.cfg.sleepEnabled.toString());
-                            Oraben.cfg.sleepEnabled = newValue;
-                            return Command.SINGLE_SUCCESS;
-                        }))
-                )
-                .then(literal("sleepPercentage").then(argument("int", IntegerArgumentType.integer(0, Integer.MAX_VALUE))
-                        .executes(ctx -> {
-                            int newValue = ctx.getArgument("int", Integer.class);
-                            messageChangeConfigValue(ctx, "sleepPercentage", Oraben.cfg.sleepPercentage, newValue, "/oraben edit sleepPercentage " + Oraben.cfg.sleepPercentage.toString());
-                            Oraben.cfg.sleepPercentage = newValue;
-                            return Command.SINGLE_SUCCESS;
-                        }))
-                )
-                .then(literal("sleepWakeUpTime").then(argument("int", IntegerArgumentType.integer(0, Integer.MAX_VALUE))
-                        .executes(ctx -> {
-                            int newValue = ctx.getArgument("int", Integer.class);
-                            messageChangeConfigValue(ctx, "sleepWakeUpTime", Oraben.cfg.sleepWakeUpTime, newValue, "/oraben edit sleepWakeUpTime " + Oraben.cfg.sleepWakeUpTime.toString());
-                            Oraben.cfg.sleepWakeUpTime = newValue;
-                            return Command.SINGLE_SUCCESS;
-                        }))
-                )
-                .then(literal("sleepClearWeatherEnabled").then(argument("bool", BoolArgumentType.bool())
-                        .executes(ctx -> {
-                            Boolean newValue = ctx.getArgument("bool", Boolean.class);
-                            messageChangeConfigValue(ctx, "sleepClearWeatherEnabled", Oraben.cfg.sleepClearWeatherEnabled, newValue, "/oraben edit sleepClearWeatherEnabled " + Oraben.cfg.sleepClearWeatherEnabled.toString());
-                            Oraben.cfg.sleepClearWeatherEnabled = newValue;
-                            return Command.SINGLE_SUCCESS;
-                        }))
-                )
+                        .then(literal("sleepEnabled").then(argument("bool", BoolArgumentType.bool())
+                                .executes(ctx -> {
+                                    Boolean newValue = ctx.getArgument("bool", Boolean.class);
+                                    messageChangeConfigValue(ctx, "sleepEnabled", Oraben.cfg.sleepEnabled, newValue, "/oraben edit sleepEnabled " + Oraben.cfg.sleepEnabled.toString());
+                                    Oraben.cfg.sleepEnabled = newValue;
+                                    return Command.SINGLE_SUCCESS;
+                                }))
+                        )
+                        .then(literal("sleepPercentage").then(argument("int", IntegerArgumentType.integer(0, Integer.MAX_VALUE))
+                                .executes(ctx -> {
+                                    int newValue = ctx.getArgument("int", Integer.class);
+                                    messageChangeConfigValue(ctx, "sleepPercentage", Oraben.cfg.sleepPercentage, newValue, "/oraben edit sleepPercentage " + Oraben.cfg.sleepPercentage.toString());
+                                    Oraben.cfg.sleepPercentage = newValue;
+                                    return Command.SINGLE_SUCCESS;
+                                }))
+                        )
+                        .then(literal("sleepWakeUpTime").then(argument("int", IntegerArgumentType.integer(0, Integer.MAX_VALUE))
+                                .executes(ctx -> {
+                                    int newValue = ctx.getArgument("int", Integer.class);
+                                    messageChangeConfigValue(ctx, "sleepWakeUpTime", Oraben.cfg.sleepWakeUpTime, newValue, "/oraben edit sleepWakeUpTime " + Oraben.cfg.sleepWakeUpTime.toString());
+                                    Oraben.cfg.sleepWakeUpTime = newValue;
+                                    return Command.SINGLE_SUCCESS;
+                                }))
+                        )
+                        .then(literal("sleepClearWeatherEnabled").then(argument("bool", BoolArgumentType.bool())
+                                .executes(ctx -> {
+                                    Boolean newValue = ctx.getArgument("bool", Boolean.class);
+                                    messageChangeConfigValue(ctx, "sleepClearWeatherEnabled", Oraben.cfg.sleepClearWeatherEnabled, newValue, "/oraben edit sleepClearWeatherEnabled " + Oraben.cfg.sleepClearWeatherEnabled.toString());
+                                    Oraben.cfg.sleepClearWeatherEnabled = newValue;
+                                    return Command.SINGLE_SUCCESS;
+                                }))
+                        )
                 //----- Sleep End -----
 
                 //----- Mob egg -----
-                .then(literal("mobEggEnabled").then(argument("bool", BoolArgumentType.bool())
-                        .executes(ctx -> {
-                            Boolean newValue = ctx.getArgument("bool", Boolean.class);
-                            messageChangeConfigValue(ctx, "mobEggEnabled", Oraben.cfg.mobEggEnabled, newValue, "/oraben edit mobEggEnabled " + Oraben.cfg.mobEggEnabled.toString());
-                            Oraben.cfg.mobEggEnabled = newValue;
-                            return Command.SINGLE_SUCCESS;
-                        }))
-                )
-                .then(literal("mobEggList")
-                        .then(literal("add")
-                                .then(argument("entity", EntitySummonArgumentType.entitySummon()).suggests(SuggestionProviders.SUMMONABLE_ENTITIES)
-                                        .then(argument("item", ItemStackArgumentType.itemStack(commandRegistryAccess))
-                                                .executes(ctx -> {
-                                                    String entity = EntitySummonArgumentType.getEntitySummon(ctx, "entity").toString();
-                                                    String item = Registry.ITEM.getId(ItemStackArgumentType.getItemStackArgument(ctx, "item").getItem()).toString();
+                        .then(literal("mobEggEnabled").then(argument("bool", BoolArgumentType.bool())
+                                .executes(ctx -> {
+                                    Boolean newValue = ctx.getArgument("bool", Boolean.class);
+                                    messageChangeConfigValue(ctx, "mobEggEnabled", Oraben.cfg.mobEggEnabled, newValue, "/oraben edit mobEggEnabled " + Oraben.cfg.mobEggEnabled.toString());
+                                    Oraben.cfg.mobEggEnabled = newValue;
+                                    return Command.SINGLE_SUCCESS;
+                                }))
+                        )
+                        .then(literal("mobEggList")
+                                .then(literal("add")
+                                        .then(argument("entity", EntitySummonArgumentType.entitySummon()).suggests(SuggestionProviders.SUMMONABLE_ENTITIES)
+                                                .then(argument("item", ItemStackArgumentType.itemStack(commandRegistryAccess))
+                                                        .executes(ctx -> {
+                                                            String entity = EntitySummonArgumentType.getEntitySummon(ctx, "entity").toString();
+                                                            String item = Registry.ITEM.getId(ItemStackArgumentType.getItemStackArgument(ctx, "item").getItem()).toString();
 
-                                                    List<String> current = List.of(entity, item);
+                                                            List<String> current = List.of(entity, item);
 
-                                                    if (!Oraben.cfg.mobEggList.contains(current)) {
-                                                        Oraben.cfg.mobEggList.add(current);
-                                                        messageChangeConfigList(ctx, "mobEggList", "Added " + listIdentifierCleaner(current.toString()), "/oraben edit mobEggList remove " + entity + " " + item);
-                                                    }
+                                                            if (!Oraben.cfg.mobEggList.contains(current)) {
+                                                                Oraben.cfg.mobEggList.add(current);
+                                                                messageChangeConfigList(ctx, "mobEggList", "Added " + listIdentifierCleaner(current.toString()), "/oraben edit mobEggList remove " + entity + " " + item);
+                                                            }
 
-                                                    return Command.SINGLE_SUCCESS;
-                                                })
+                                                            return Command.SINGLE_SUCCESS;
+                                                        })
                         )))
                         .then(literal("remove")
                                 .then(argument("entity", EntitySummonArgumentType.entitySummon()).suggests(SuggestionProviders.SUMMONABLE_ENTITIES)
@@ -165,17 +165,43 @@ public class ConfigCommand {
 
                                                     return Command.SINGLE_SUCCESS;
                                                 })
-                        )))
-                )
-                .then(literal("mobEggSurvivalSpawnerChange").then(argument("bool", BoolArgumentType.bool())
-                        .executes(ctx -> {
-                            Boolean newValue = ctx.getArgument("bool", Boolean.class);
-                            messageChangeConfigValue(ctx, "mobEggSurvivalSpawnerChange", Oraben.cfg.mobEggSurvivalSpawnerChange, newValue, "/oraben edit mobEggSurvivalSpawnerChange " + Oraben.cfg.mobEggSurvivalSpawnerChange.toString());
-                            Oraben.cfg.mobEggSurvivalSpawnerChange = newValue;
-                            return Command.SINGLE_SUCCESS;
-                        }))
-                )
+                        ))))
+                        .then(literal("mobEggSurvivalSpawnerChange").then(argument("bool", BoolArgumentType.bool())
+                                .executes(ctx -> {
+                                    Boolean newValue = ctx.getArgument("bool", Boolean.class);
+                                    messageChangeConfigValue(ctx, "mobEggSurvivalSpawnerChange", Oraben.cfg.mobEggSurvivalSpawnerChange, newValue, "/oraben edit mobEggSurvivalSpawnerChange " + Oraben.cfg.mobEggSurvivalSpawnerChange);
+                                    Oraben.cfg.mobEggSurvivalSpawnerChange = newValue;
+                                    return Command.SINGLE_SUCCESS;
+                                }))
+                        )
+                        .then(literal("mobEggLog").then(argument("bool", BoolArgumentType.bool())
+                                .executes(ctx -> {
+                                    Boolean newValue = ctx.getArgument("bool", Boolean.class);
+                                    messageChangeConfigValue(ctx, "mobEggLog", Oraben.cfg.mobEggLog, newValue, "/oraben edit mobEggLog " + Oraben.cfg.mobEggSurvivalSpawnerChange);
+                                    Oraben.cfg.mobEggLog = newValue;
+                                    return Command.SINGLE_SUCCESS;
+                                }))
+                        )
                 //----- Mob egg End -----
+
+                //----- Misc. -----
+                        .then(literal("signEditor").then(argument("bool", BoolArgumentType.bool())
+                                        .executes(ctx -> {
+                                            Boolean newValue = ctx.getArgument("bool", Boolean.class);
+                                            messageChangeConfigValue(ctx, "signEditor", Oraben.cfg.signEditor, newValue, "/oraben edit signEditor " + Oraben.cfg.signEditor);
+                                            Oraben.cfg.signEditor = newValue;
+                                            return Command.SINGLE_SUCCESS;
+                                        }))
+                                )
+                        .then(literal("restockTime").then(argument("int", IntegerArgumentType.integer(0, Integer.MAX_VALUE))
+                                .executes(ctx -> {
+                                    int newValue = ctx.getArgument("int", Integer.class);
+                                    messageChangeConfigValue(ctx, "restockTime", Oraben.cfg.restockTime, newValue, "/oraben edit restockTime " + Oraben.cfg.restockTime);
+                                    Oraben.cfg.restockTime = newValue;
+                                    return Command.SINGLE_SUCCESS;
+                                }))
+                        )
+                //----- Misc. End -----
         );
 
         argumentBuilder.then(literal("get")
@@ -198,7 +224,13 @@ public class ConfigCommand {
                         .then(literal("mobEggEnabled").executes(ctx -> messageGetConfigValue(ctx, "mobEggEnabled", Oraben.cfg.mobEggEnabled)))
                         .then(literal("mobEggList").executes(ctx -> messageGetConfigValue(ctx, "mobEggList", Oraben.cfg.mobEggList)))
                         .then(literal("mobEggSurvivalSpawnerChange").executes(ctx -> messageGetConfigValue(ctx, "mobEggSurvivalSpawnerChange", Oraben.cfg.mobEggSurvivalSpawnerChange)))
+                        .then(literal("mobEggLog").executes(ctx -> messageGetConfigValue(ctx, "mobEggLog", Oraben.cfg.mobEggLog)))
                         //----- Mob egg End -----
+
+                        //----- Misc. -----
+                        .then(literal("signEditor").executes(ctx -> messageGetConfigValue(ctx, "signEditor", Oraben.cfg.signEditor)))
+                        .then(literal("restockTime").executes(ctx -> messageGetConfigValue(ctx, "restockTime", Oraben.cfg.restockTime)))
+                        //----- Misc. End -----
         );
 
         dispatcher.register(argumentBuilder);
