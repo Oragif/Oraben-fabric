@@ -47,6 +47,8 @@ public class MobEgg {
                         player.getStackInHand(hand).decrement(1);
                     }
 
+                    if (Oraben.cfg.mobEggLog) { Oraben.log(player.getEntityName() + "picked up: " + entity.getType().toString()); }
+
                     entity.remove(Entity.RemovalReason.DISCARDED);
 
                     return ActionResult.SUCCESS;
