@@ -1,6 +1,9 @@
 package oragif.oraben;
 
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.item.Item;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import oragif.oraben.block.SignEditor;
 import oragif.oraben.config.Config;
 import oragif.oraben.config.Config.ConfigData;

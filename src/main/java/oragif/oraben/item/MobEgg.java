@@ -2,18 +2,17 @@ package oragif.oraben.item;
 
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SpawnEggItem;
-import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.World;
 import oragif.oraben.Oraben;
 import oragif.oraben.mixin.AccessorVillagerEntity;
@@ -22,7 +21,7 @@ import java.util.*;
 
 public class MobEgg {
     static final Item air = Registry.ITEM.get(Identifier.tryParse("minecraft:air"));
-    static final Item stick = Registry.ITEM.get(Identifier.tryParse("minecraft:stick"));
+    public static final Item stick = Registry.ITEM.get(Identifier.tryParse("minecraft:stick"));
     public static void register() {
         UseEntityCallback.EVENT.register(MobEgg::onUseEntity);
     }
@@ -49,6 +48,10 @@ public class MobEgg {
 
                     if (Oraben.cfg.mobEggLog) { Oraben.log(player.getEntityName() + "picked up: " + entity.getType().toString()); }
 
+                    if (entity instanceof VillagerEntity villager) {
+                        ((AccessorVillagerEntity) villager).invokeReleaseAllTickets();
+                    }
+
                     entity.remove(Entity.RemovalReason.DISCARDED);
 
                     return ActionResult.SUCCESS;
@@ -57,8 +60,22 @@ public class MobEgg {
 
             if (entity instanceof VillagerEntity villager) {
                 if (player.isSneaking() && player.isHolding(stick)) {
-                    villager.setVillagerData(villager.getVillagerData().withProfession(VillagerProfession.NONE));
+                    if (((AccessorVillagerEntity) villager).getExperience() == 0) {
+                        Entity vil = new VillagerEntity(EntityType.VILLAGER, world);
+                        vil.setPosition(villager.getPos());
+                        vil.setYaw(villager.getYaw());
+                        vil.setPitch(villager.getPitch());
+                        vil.setBodyYaw(villager.getBodyYaw());
+                        vil.setHeadYaw(villager.getHeadYaw());
+
+                        ((AccessorVillagerEntity) villager).invokeReleaseAllTickets();
+                        villager.remove(Entity.RemovalReason.DISCARDED);
+
+                        world.spawnEntity(vil);
+                        return actionResult;
+                    }
                 }
+
                 long restockTime =  ((AccessorVillagerEntity) villager).getLastRestockTime() + Oraben.cfg.restockTime;
                 if (restockTime <= world.getTime()) {
                     villager.restock();
