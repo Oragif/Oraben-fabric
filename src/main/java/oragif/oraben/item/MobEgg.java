@@ -58,9 +58,7 @@ public class MobEgg {
                     villager.setVillagerData(villager.getVillagerData().withProfession(VillagerProfession.NONE));
                 }
                 long restockTime =  ((AccessorVillagerEntity) villager).getLastRestockTime() + Oraben.cfg.restockTime;
-                Oraben.log("Restock time: " + restockTime + " / " + world.getTime());
                 if (restockTime <= world.getTime()) {
-                    player.sendMessage(Text.literal("Restocking"), false);
                     villager.restock();
                     return actionResult;
                 }
