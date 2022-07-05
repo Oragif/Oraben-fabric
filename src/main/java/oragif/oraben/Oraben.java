@@ -1,12 +1,17 @@
 package oragif.oraben;
 
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.item.Item;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
+import net.fabricmc.fabric.api.event.player.UseEntityCallback;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.util.hit.EntityHitResult;
+import net.minecraft.world.World;
 import oragif.oraben.block.SignEditor;
 import oragif.oraben.config.Config;
 import oragif.oraben.config.Config.ConfigData;
+import oragif.oraben.entity.VillagerOverhaul;
 import oragif.oraben.item.MobEgg;
 import oragif.oraben.util.SleepManager;
 import org.slf4j.Logger;
@@ -26,8 +31,18 @@ public class Oraben implements ModInitializer {
     }
 
     private void moduleInitializer() {
-        if (cfg.mobEggEnabled) { MobEgg.register(); }
         if (cfg.signEditor) { SignEditor.register(); }
+
+        UseEntityCallback.EVENT.register((PlayerEntity player, World world, Hand hand, Entity entity, EntityHitResult hitResult) -> {
+            if (cfg.mobEggEnabled) {
+                if (MobEgg.onUseEntity(player, world, hand, entity, hitResult)) { return ActionResult.SUCCESS; }
+            }
+            if (cfg.villagerEnabled) {
+                if (VillagerOverhaul.onUseEntity(player,world, hand, entity, hitResult)) { return ActionResult.SUCCESS; }
+            }
+
+            return ActionResult.PASS;
+        });
     }
 
     public static void log(String msg) {

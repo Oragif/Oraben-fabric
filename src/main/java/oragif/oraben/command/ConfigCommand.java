@@ -184,6 +184,33 @@ public class ConfigCommand {
                         )
                 //----- Mob egg End -----
 
+                //----- Villager -----
+                        .then(literal("villagerEnabled").then(argument("bool", BoolArgumentType.bool())
+                                .executes(ctx -> {
+                                    Boolean newValue = ctx.getArgument("bool", Boolean.class);
+                                    messageChangeConfigValue(ctx, "villagerEnabled", Oraben.cfg.villagerEnabled, newValue, "/oraben edit villagerEnabled " + Oraben.cfg.villagerEnabled.toString());
+                                    Oraben.cfg.villagerEnabled = newValue;
+                                    return Command.SINGLE_SUCCESS;
+                                }))
+                        )
+                        .then(literal("villagerRestockTime").then(argument("int", IntegerArgumentType.integer(0, Integer.MAX_VALUE))
+                                .executes(ctx -> {
+                                    int newValue = ctx.getArgument("int", Integer.class);
+                                    messageChangeConfigValue(ctx, "villagerRestockTime", Oraben.cfg.villagerRestockTime, newValue, "/oraben edit villagerRestockTime " + Oraben.cfg.villagerRestockTime);
+                                    Oraben.cfg.villagerRestockTime = newValue;
+                                    return Command.SINGLE_SUCCESS;
+                                }))
+                        )
+                        .then(literal("villagerReroll").then(argument("bool", BoolArgumentType.bool())
+                                .executes(ctx -> {
+                                    Boolean newValue = ctx.getArgument("bool", Boolean.class);
+                                    messageChangeConfigValue(ctx, "villagerReroll", Oraben.cfg.villagerReroll, newValue, "/oraben edit villagerReroll " + Oraben.cfg.villagerReroll.toString());
+                                    Oraben.cfg.villagerReroll = newValue;
+                                    return Command.SINGLE_SUCCESS;
+                                }))
+                        )
+                //----- Villager End -----
+
                 //----- Misc. -----
                         .then(literal("signEditor").then(argument("bool", BoolArgumentType.bool())
                                         .executes(ctx -> {
@@ -193,14 +220,6 @@ public class ConfigCommand {
                                             return Command.SINGLE_SUCCESS;
                                         }))
                                 )
-                        .then(literal("restockTime").then(argument("int", IntegerArgumentType.integer(0, Integer.MAX_VALUE))
-                                .executes(ctx -> {
-                                    int newValue = ctx.getArgument("int", Integer.class);
-                                    messageChangeConfigValue(ctx, "restockTime", Oraben.cfg.restockTime, newValue, "/oraben edit restockTime " + Oraben.cfg.restockTime);
-                                    Oraben.cfg.restockTime = newValue;
-                                    return Command.SINGLE_SUCCESS;
-                                }))
-                        )
                 //----- Misc. End -----
         );
 
@@ -227,9 +246,14 @@ public class ConfigCommand {
                         .then(literal("mobEggLog").executes(ctx -> messageGetConfigValue(ctx, "mobEggLog", Oraben.cfg.mobEggLog)))
                         //----- Mob egg End -----
 
+                        //----- Villager -----
+                        .then(literal("villagerEnabled").executes(ctx -> messageGetConfigValue(ctx, "villagerEnabled", Oraben.cfg.villagerEnabled)))
+                        .then(literal("villagerRestockTime").executes(ctx -> messageGetConfigValue(ctx, "villagerRestockTime", Oraben.cfg.villagerRestockTime)))
+                        .then(literal("villagerReroll").executes(ctx -> messageGetConfigValue(ctx, "villagerReroll", Oraben.cfg.villagerReroll)))
+                        //----- Villager End -----
+
                         //----- Misc. -----
                         .then(literal("signEditor").executes(ctx -> messageGetConfigValue(ctx, "signEditor", Oraben.cfg.signEditor)))
-                        .then(literal("restockTime").executes(ctx -> messageGetConfigValue(ctx, "restockTime", Oraben.cfg.restockTime)))
                         //----- Misc. End -----
         );
 

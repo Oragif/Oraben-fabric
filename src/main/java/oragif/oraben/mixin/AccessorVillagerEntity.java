@@ -14,5 +14,5 @@ public interface AccessorVillagerEntity {
     int getExperience();
 
     @Invoker("releaseAllTickets")
-    public void invokeReleaseAllTickets();
+    void invokeReleaseAllTickets();
 }
